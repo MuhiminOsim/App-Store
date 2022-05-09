@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:layout_width="250dp"
+    android:layout_height="100dp">
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@color/purple_200"
+            android:id="@+id/cell_image"/>
+        <TextView
+            app:layout_constraintStart_toEndOf="@id/cell_image"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testing testing testing testing testing testing testing testing"
+            android:textSize="20dp"
+            android:id="@+id/cell_app_name"/>
+
+        <TextView
+            app:layout_constraintStart_toEndOf="@id/cell_image"
+            app:layout_constraintTop_toBottomOf="@id/cell_app_name"
+            android:text="6MB"
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cell_app_size"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
