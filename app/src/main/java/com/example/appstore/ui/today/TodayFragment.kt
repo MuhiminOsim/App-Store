@@ -33,6 +33,7 @@ class TodayFragment : Fragment() {
 
     private var appName: String? = null
     private var appSize: String? = null
+    private var appStatus: String? = null
     private var appType: Int = 0
     private var bitmap: Bitmap? = null
     private var imageURI: Uri? = null
@@ -64,6 +65,7 @@ class TodayFragment : Fragment() {
         super.onStart()
         appName = requireView().findViewById<EditText>(R.id.edit_app_name).text.toString()
         appSize = requireView().findViewById<EditText>(R.id.edit_app_size).text.toString()
+        appStatus = requireView().findViewById<EditText>(R.id.edit_app_status).text.toString()
         appType = 0
         if (requireView().findViewById<CheckBox>(R.id.is_game).isChecked) {
             appType = 1
@@ -79,14 +81,12 @@ class TodayFragment : Fragment() {
         }
 
         val appBannerButton = requireView().findViewById<Button>(R.id.app_banner)
-        appBannerButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                bitmap = null
-                imageURI = null
-                flag = false
-                showImageChooser()
-            }
-        })
+        appBannerButton.setOnClickListener {
+            bitmap = null
+            imageURI = null
+            flag = false
+            showImageChooser()
+        }
 
         val addAppButton = requireView().findViewById<Button>(R.id.add_app)
         addAppButton.setOnClickListener {
@@ -95,14 +95,14 @@ class TodayFragment : Fragment() {
     }
 
     private fun addApp() {
-        if (appName != "" && appSize != ""
-            && iconPath != "" && bannerPath != ""
-            && (requireView().findViewById<CheckBox>(R.id.not_game).isChecked != requireView().findViewById<CheckBox>(R.id.is_game).isChecked)) {
+        if (appName != "" && appSize != "" && iconPath != "" &&
+            bannerPath != "" && appStatus != "" &&
+            (requireView().findViewById<CheckBox>(R.id.not_game).isChecked != requireView().findViewById<CheckBox>(R.id.is_game).isChecked)) {
             val db: FirebaseDatabase = FirebaseDatabase.getInstance()
             databaseReference = db.getReference("AppData")
 
             val id: String? = databaseReference.push().key
-            val appData = AppData(id!!, appName!!, appSize!!, appType, iconPath!!, bannerPath!!)
+            val appData = AppData(id!!, appName!!, appSize!!, appStatus!!, appType, iconPath!!, bannerPath!!)
             databaseReference.child(id!!).setValue(appData).addOnSuccessListener {
                 Toast.makeText(requireContext(), "Successfully Added", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {

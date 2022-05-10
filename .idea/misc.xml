@@ -3,18 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android Projects/App Store/app/src/main/res/layout/fragment_today.xml" value="0.240625" />
         <entry key="app/src/main/res/drawable/ic_app.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.365" />
+        <entry key="app/src/main/res/drawable/round_outline.xml" value="0.2715" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28020833333333334" />
         <entry key="app/src/main/res/layout/app_cell.xml" value="0.28020833333333334" />
-        <entry key="app/src/main/res/layout/app_cell_bigger.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/app_cell_bigger.xml" value="0.225" />
         <entry key="app/src/main/res/layout/app_cell_horizontal.xml" value="0.28020833333333334" />
         <entry key="app/src/main/res/layout/app_cell_horizontal_narrow.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/app_cell_square.xml" value="0.27760416666666665" />
         <entry key="app/src/main/res/layout/fragment_app.xml" value="0.28020833333333334" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/fragment_games.xml" value="0.37025641025641026" />
+        <entry key="app/src/main/res/layout/fragment_games.xml" value="0.18529180842711332" />
         <entry key="app/src/main/res/layout/fragment_today.xml" value="0.33" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.37604166666666666" />
       </map>

@@ -11,8 +11,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="App Name"
+        android:text="Add A New App"
         android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="App Name"
+
         android:id="@+id/app_name"/>
 
     <EditText
@@ -24,7 +31,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="App Size"
-        android:textAlignment="center"
         android:id="@+id/app_size"/>
 
     <EditText
@@ -35,8 +41,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="App Status"
+        android:id="@+id/app_status"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_app_status"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="App Type"
-        android:textAlignment="center"
         android:id="@+id/app_type"/>
 
     <LinearLayout
@@ -59,8 +75,9 @@
 
     <Button
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Choose App Icon"
         android:id="@+id/app_icon"
         android:textAlignment="center"
@@ -68,7 +85,7 @@
 
     <Button
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Choose App Banner"
         android:textAlignment="center"
@@ -76,8 +93,9 @@
         />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:id="@+id/add_app"
         android:text="Add App"/>

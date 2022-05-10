@@ -27,6 +27,7 @@
         android:textSize="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_linear"
         android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +35,17 @@
         tools:listitem="@layout/app_cell_square"
         android:orientation="horizontal"/>
 
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/free_app"
+        android:text="Top Free Apps"
+        android:textSize="20dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_grid"
         android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
