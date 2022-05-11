@@ -1,5 +1,7 @@
 package com.example.appstore.ui.app
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appstore.AppData
+import com.example.appstore.model.AppData
 import com.example.appstore.databinding.FragmentAppBinding
+import com.example.appstore.model.IClickListener
 import com.example.appstore.utils.FirebaseUtils
 import com.example.appstore.utils.IFirebaseListener
 
@@ -21,6 +24,10 @@ class AppFragment : Fragment() {
     private var _binding: FragmentAppBinding? = null
     private lateinit var recyclerViewLinear : RecyclerView
     private lateinit var recyclerViewGrid: RecyclerView
+
+    companion object {
+        const val SEARCH_PREFIX = "https://www.google.com/search?q="
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,6 +53,13 @@ class AppFragment : Fragment() {
         recyclerViewGrid = binding.recyclerViewGrid
 
         appAdapterSquare = AppAdapterSquare(requireContext(), ArrayList())
+        appAdapterSquare.setOnClickListener(object : IClickListener {
+            override fun clicked(appData: AppData) {
+                val queryUrl: Uri = Uri.parse("${SEARCH_PREFIX}${appData.appName}")
+                val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+                context?.startActivity(intent)
+            }
+        })
         appAdapterHorizontal = AppAdapterHorizontal(requireContext(), ArrayList())
 
         recyclerViewLinear.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -77,6 +91,8 @@ class AppFragment : Fragment() {
                 println("pailam na :(")
             }
         })
+
+
     }
 
     override fun onDestroyView() {

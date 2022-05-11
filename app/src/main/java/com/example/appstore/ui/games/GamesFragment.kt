@@ -1,5 +1,7 @@
 package com.example.appstore.ui.games
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,8 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appstore.AppData
+import com.example.appstore.model.AppData
 import com.example.appstore.databinding.FragmentGamesBinding
+import com.example.appstore.model.IClickListener
 import com.example.appstore.utils.FirebaseUtils
 import com.example.appstore.utils.IFirebaseListener
 
@@ -57,6 +60,13 @@ class GamesFragment : Fragment() {
 
         recyclerViewUpper.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewUpper.adapter = gameAdapterBigger
+        gameAdapterBigger.setOnClickListener(object : IClickListener {
+            override fun clicked(appData: AppData) {
+                val queryUrl : Uri = Uri.parse("https://www.google.com/search?q=${appData.appName}")
+                val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+                context?.startActivity(intent)
+            }
+        })
 
         //TODO firebase parsing
         FirebaseUtils.getAllApps(object : IFirebaseListener {

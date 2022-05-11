@@ -17,7 +17,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.appstore.AppData
+import com.example.appstore.model.AppData
 import com.example.appstore.R
 import com.example.appstore.databinding.FragmentTodayBinding
 import com.google.firebase.database.DatabaseReference
@@ -136,6 +136,8 @@ class TodayFragment : Fragment() {
             "Title",
             null
         )
+
+        println(path)
         return Uri.parse(path)
     }
 

@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appstore.AppData
+import com.example.appstore.model.AppData
 import com.example.appstore.R
+import com.example.appstore.model.IClickListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
@@ -19,12 +19,21 @@ import java.io.File
 class AppAdapterSquare(
     var context: Context,
     var data: ArrayList<AppData>,
-) : RecyclerView.Adapter<AppAdapterSquare.appSquareViewHolder>() {
+) : RecyclerView.Adapter<AppAdapterSquare.AppSquareViewHolder>() {
 
-    class appSquareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var iClickListener : IClickListener? = null
+
+    class AppSquareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var appNameTextView: TextView
         var appSizeTextView: TextView
         var iconImageView: ImageView
+
+        var appData : AppData? = null
+
+        fun loadData(appData: AppData){
+            this.appData = appData
+            //todo load the views here
+        }
 
         init {
             appNameTextView = itemView.findViewById(R.id.cell_app_name)
@@ -36,20 +45,25 @@ class AppAdapterSquare(
 //        }
     }
 
+    fun setOnClickListener(iClickListener: IClickListener){
+        this.iClickListener = iClickListener
+    }
+
     fun updateData(datax: ArrayList<AppData>){
         val size = data.size
+        data.clear()
         data.addAll(datax)
         notifyItemRangeInserted(size , datax.size)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): appSquareViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppSquareViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = layoutInflater.inflate(R.layout.app_cell_square, parent, false)
 
-        return appSquareViewHolder(view)
+        return AppSquareViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: appSquareViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AppSquareViewHolder, position: Int) {
         val storageReference: StorageReference = FirebaseStorage.getInstance().reference.child(
             data[position].iconPath
         )
@@ -61,9 +75,13 @@ class AppAdapterSquare(
         }.addOnFailureListener {
             Toast.makeText(context, "Failed to retrieve the image", Toast.LENGTH_SHORT).show()
         }
+        holder.loadData(data[position])
 
         holder.appNameTextView.text = data[position].appName
         holder.appSizeTextView.text = data[position].appSize
+        holder.itemView.setOnClickListener{
+            iClickListener?.clicked(data[position])
+        }
     }
 
     override fun getItemCount(): Int {

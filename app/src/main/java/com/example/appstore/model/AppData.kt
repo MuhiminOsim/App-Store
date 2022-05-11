@@ -1,4 +1,4 @@
-package com.example.appstore
+package com.example.appstore.model
 
 import java.io.Serializable
 

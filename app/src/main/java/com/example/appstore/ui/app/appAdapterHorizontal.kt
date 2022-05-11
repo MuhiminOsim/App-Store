@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appstore.AppData
+import com.example.appstore.model.AppData
 import com.example.appstore.R
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -22,9 +21,9 @@ class AppAdapterHorizontal(
 ) : RecyclerView.Adapter<AppAdapterHorizontal.AppHorizontalViewHolder>() {
 
     class AppHorizontalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var appNameTextView : TextView
-        lateinit var appSizeTextView: TextView
-        lateinit var iconImageView: ImageView
+        var appNameTextView : TextView
+        var appSizeTextView: TextView
+        var iconImageView: ImageView
 
         init {
             appNameTextView = itemView.findViewById(R.id.cell_app_name)
@@ -34,6 +33,7 @@ class AppAdapterHorizontal(
     }
     fun updateData(datax: ArrayList<AppData>){
         val size = data.size
+        data.clear()
         data.addAll(datax)
         notifyItemRangeInserted(size , datax.size)
     }
@@ -47,7 +47,7 @@ class AppAdapterHorizontal(
 
     override fun onBindViewHolder(holder: AppHorizontalViewHolder, position: Int) {
         val storageReference : StorageReference = FirebaseStorage.getInstance().reference.child(
-            data!![position].iconPath)
+            data[position].iconPath)
         val localFile = File.createTempFile("tempImage", "jpg")
         storageReference.getFile(localFile).addOnSuccessListener {
             val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
@@ -57,11 +57,11 @@ class AppAdapterHorizontal(
             Toast.makeText(context, "Failed to retrieve the image", Toast.LENGTH_SHORT).show()
         }
 
-        holder.appNameTextView.text = data!![position].appName
-        holder.appSizeTextView.text = data!![position].appSize
+        holder.appNameTextView.text = data[position].appName
+        holder.appSizeTextView.text = data[position].appSize
     }
 
     override fun getItemCount(): Int {
-        return data!!.size
+        return data.size
     }
 }
