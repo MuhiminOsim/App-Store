@@ -1,13 +1,16 @@
 package com.example.appstore.ui.today
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +18,13 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.appstore.model.AppData
 import com.example.appstore.R
-import com.example.appstore.databinding.FragmentTodayBinding
+import com.example.appstore.databinding.FragmentAddAppBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -27,9 +32,9 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 
-class TodayFragment : Fragment() {
+class AddAppFragment : Fragment() {
     private val REQ_CODE = 1
-    private var _binding: FragmentTodayBinding? = null
+    private var _binding: FragmentAddAppBinding? = null
 
     private var appName: String? = null
     private var appSize: String? = null
@@ -53,9 +58,9 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val notificationsViewModel =
-            ViewModelProvider(this).get(TodayViewModel::class.java)
+            ViewModelProvider(this).get(AddAppViewModel::class.java)
 
-        _binding = FragmentTodayBinding.inflate(inflater, container, false)
+        _binding = FragmentAddAppBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root
@@ -77,6 +82,7 @@ class TodayFragment : Fragment() {
             bitmap = null
             imageURI = null
             flag = true
+            setupPermissions()
             showImageChooser()
         }
 
@@ -85,12 +91,46 @@ class TodayFragment : Fragment() {
             bitmap = null
             imageURI = null
             flag = false
+            setupPermissions()
             showImageChooser()
         }
 
         val addAppButton = requireView().findViewById<Button>(R.id.add_app)
         addAppButton.setOnClickListener {
             addApp()
+        }
+    }
+
+    private val TAG = "PermissionTest"
+    private val STORAGE_REQUEST_CODE = 101
+
+    private fun setupPermissions() {
+        val permission = ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Permission to storage denied")
+            makeRequest()
+        }
+    }
+
+    private fun makeRequest() {
+        ActivityCompat.requestPermissions(requireActivity(),
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            STORAGE_REQUEST_CODE)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            STORAGE_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Permission has been denied by user")
+                } else {
+                    Log.i(TAG, "Permission has been granted by user")
+                }
+            }
         }
     }
 
@@ -103,7 +143,7 @@ class TodayFragment : Fragment() {
 
             val id: String? = databaseReference.push().key
             val appData = AppData(id!!, appName!!, appSize!!, appStatus!!, appType, iconPath!!, bannerPath!!)
-            databaseReference.child(id!!).setValue(appData).addOnSuccessListener {
+            databaseReference.child(id).setValue(appData).addOnSuccessListener {
                 Toast.makeText(requireContext(), "Successfully Added", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Unsuccessful!", Toast.LENGTH_SHORT).show()
@@ -114,7 +154,6 @@ class TodayFragment : Fragment() {
         }
     }
     var flag = false
-
 
     private fun showImageChooser() {
         val intent = Intent()
