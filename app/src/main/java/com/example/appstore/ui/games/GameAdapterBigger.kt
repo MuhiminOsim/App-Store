@@ -57,7 +57,7 @@ class GameAdapterBigger(
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
         val view : View = layoutInflater.inflate(R.layout.app_cell_bigger, parent, false)
 
-        return GameAdapterBigger.GameBiggerViewHolder(view)
+        return GameBiggerViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: GameBiggerViewHolder, position: Int) {
